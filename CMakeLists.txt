@@ -25,6 +25,10 @@ endif()
 # Define source files.
 set (SOURCES
     src/Main.cpp
+	src/Engine/Engine.cpp
+	src/Engine/Engine.hpp
+	src/View/GLDisplay.hpp
+	src/View/GLDisplay.cpp
 )
 
 # Define the executable.
