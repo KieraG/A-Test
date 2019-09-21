@@ -40,9 +40,9 @@ auto GLDisplay::display() -> void {
     SDL_GL_SwapWindow(engine.window.get());
 }
 
-auto GLDisplay::update(double dt) -> void {
-    // dt == delta time
-}
+//auto GLDisplay::update(double dt) -> void {
+//    // dt == delta time
+//}
 
 auto GLDisplay::get() -> GLDisplay & {
     static auto instance = GLDisplay{};
@@ -50,11 +50,11 @@ auto GLDisplay::get() -> GLDisplay & {
     return instance;
 }
 
-auto GLDisplay::drawRectangle(float width, float height) -> void{
+auto GLDisplay::drawRectangle(float _width, float _height) -> void{
     glBegin(GL_LINE_LOOP);
-    glVertex3f(-0.5f * width, 0.5f * height, 0);
-    glVertex3f(0.5f * width, 0.5f * height, 0);
-    glVertex3f(0.5f * width, -0.5f * height, 0);
-    glVertex3f(-0.5f * width, -0.5f * height, 0);
+    glVertex3f(-0.5f * _width, 0.5f * _height, 0);
+    glVertex3f(0.5f * _width, 0.5f * _height, 0);
+    glVertex3f(0.5f * _width, -0.5f * _height, 0);
+    glVertex3f(-0.5f * _width, -0.5f * _height, 0);
     glEnd();
 }

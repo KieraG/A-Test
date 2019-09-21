@@ -29,6 +29,10 @@ set (SOURCES
 	src/Engine/Engine.hpp
 	src/View/GLDisplay.hpp
 	src/View/GLDisplay.cpp
+	src/Pathing/Node.hpp
+	src/Pathing/Node.cpp
+	src/Pathing/Grid.hpp
+	src/Pathing/Grid.cpp
 )
 
 # Define the executable.
