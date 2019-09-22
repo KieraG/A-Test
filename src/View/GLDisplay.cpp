@@ -11,6 +11,7 @@
 
 using View::GLDisplay;
 using namespace GridDisplay;
+using namespace Pathing;
 
 GLDisplay::GLDisplay() {
     auto &engine = SDLEngine::Engine::get();
@@ -100,8 +101,13 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
             auto neighbours = testGrid.getNeighbours(
                 testGrid.nodeGrid[testGrid.selected[0]][testGrid.selected[1]]);
             for (auto n : neighbours) {
-				n->toggleWalkable();
-			}
+                n->toggleWalkable();
+            }
+        } break;
+        case SDL_SCANCODE_B: {
+            Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                  testGrid.getEndNode());
+            //std::cout << Pathfinding::findDistance(testGrid.getStartNode(), testGrid.getEndNode());
         } break;
 
         default: break;

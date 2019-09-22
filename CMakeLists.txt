@@ -35,6 +35,8 @@ set (SOURCES
 	src/Pathing/Node.cpp
 	src/Pathing/Grid.hpp
 	src/Pathing/Grid.cpp
+	src/Pathing/Pathfinding.hpp
+	src/Pathing/Pathfinding.cpp
 )
 
 # Define the executable.

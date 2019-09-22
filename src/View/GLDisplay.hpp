@@ -6,6 +6,7 @@
 #include <glm/vec3.hpp>
 
 #include "Engine/Engine.hpp"
+#include "Pathing//Pathfinding.hpp"
 #include "View/GridDisplay.hpp"
 
 using Pathing::Grid;
