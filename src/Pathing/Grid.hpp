@@ -8,17 +8,22 @@ using std::vector;
 namespace Pathing {
     class Grid {
       public:
+        Grid();
         Grid(int _gridSizeX, int _gridSizeY);
 
-		/// 2Dimensional Vector of nodes
+        void resizeGrid(int x, int y);
+
+        /// 2Dimensional Vector of nodes
         vector<vector<Node>> nodeGrid;
 
-		///The number of columns of nodes
-        int gridSizeX = 0;
+        /// The number of columns of nodes
+        int gridSizeX = 5;
 
-		///The number of rows of nodes
-        int gridSizeY = 0;
+        /// The number of rows of nodes
+        int gridSizeY = 5;
 
+        int selected[2] = {0, 0};
 
+        vector<Node> getNeighbours(Node &_node);
     };
 };

@@ -5,7 +5,10 @@
 #include <SDL2/SDL.h>
 
 #include "Engine/Engine.hpp"
-#include "Pathing/Grid.hpp"
+
+#include "View/GridDisplay.hpp"
+
+using Pathing::Grid;
 
 namespace View {
 
@@ -19,9 +22,10 @@ namespace View {
         GLDisplay();
         static auto get() -> GLDisplay &;
         auto display() -> void;
+        auto handleKeyPress(SDL_Event &event) -> void;
         /*auto update(double dt) -> void;*/
-        auto drawRectangle(float width, float height) -> void;
-        
+
+        Grid testGrid;
     };
 
 };

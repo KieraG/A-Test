@@ -143,6 +143,8 @@ auto Engine::getIsRunning() const -> bool {
  * @param event The SDL2 event being read from
  */
 auto Engine::handleKeyPress(SDL_Event &event) -> void {
+    auto &display = GLDisplay::get();
+    display.handleKeyPress(event);
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE: {
             SDL_Quit();

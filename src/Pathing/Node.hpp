@@ -8,6 +8,8 @@ namespace Pathing {
             x = _x, y = _y;
         };
 
+		auto toggleWalkable() -> void;
+
 		///X location in grid
         int x = 0;
 
