@@ -36,7 +36,10 @@ auto GLDisplay::display() -> void {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
+    glPushMatrix();
+    glTranslatef(gridTranslation.x, gridTranslation.y, gridTranslation.z);
     displayGrid(testGrid);
+    glPopMatrix();
 
     glDisable(GL_DEPTH_TEST);
     SDL_GL_SwapWindow(engine.window.get());
@@ -73,7 +76,43 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
 
             testGrid.nodeGrid[x][y].toggleWalkable();
         } break;
+        case SDL_SCANCODE_UP: {
+            gridTranslation.y -= 1;
+        } break;
+        case SDL_SCANCODE_DOWN: {
+            gridTranslation.y += 1;
+        } break;
+        case SDL_SCANCODE_LEFT: {
+            gridTranslation.x += 1;
+        } break;
+        case SDL_SCANCODE_RIGHT: {
+            gridTranslation.x -= 1;
+        } break;
+        case SDL_SCANCODE_Z: {
+            testGrid.pathStart[0] = testGrid.selected[0];
+            testGrid.pathStart[1] = testGrid.selected[1];
+        } break;
+        case SDL_SCANCODE_X: {
+            testGrid.pathEnd[0] = testGrid.selected[0];
+            testGrid.pathEnd[1] = testGrid.selected[1];
+        } break;
+        case SDL_SCANCODE_L: {
+            auto neighbours = testGrid.getNeighbours(
+                testGrid.nodeGrid[testGrid.selected[0]][testGrid.selected[1]]);
+            for (auto n : neighbours) {
+				n->toggleWalkable();
+			}
+        } break;
+
         default: break;
+    }
+}
+
+auto View::GLDisplay::handleMouseWheel(SDL_Event &event) -> void {
+    int amountScrolledY = event.wheel.y; // Amount scrolled up or down
+    std::cout << amountScrolledY << std::endl;
+    if (gridTranslation.z < -1 || amountScrolledY < 0) {
+        gridTranslation.z += amountScrolledY;
     }
 }
 
@@ -85,4 +124,10 @@ auto GLDisplay::get() -> GLDisplay & {
     static auto instance = GLDisplay{};
 
     return instance;
+}
+
+auto View::GLDisplay::updateCamera() -> void {
+    gluLookAt(camera.position.x, camera.position.y, camera.position.z,
+              camera.look.x, camera.look.y, camera.look.z, camera.up.x,
+              camera.up.y, camera.up.z);
 }

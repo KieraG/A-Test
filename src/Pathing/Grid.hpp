@@ -22,8 +22,10 @@ namespace Pathing {
         /// The number of rows of nodes
         int gridSizeY = 5;
 
-        int selected[2] = {0, 0};
+        int selected[2]  = {0, 0};
+        int pathStart[2] = {0, 0};
+        int pathEnd[2]   = {0, 0};
 
-        vector<Node> getNeighbours(Node &_node);
+        vector<Node*> getNeighbours(Node &_node);
     };
 };

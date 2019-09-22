@@ -28,20 +28,21 @@ void Grid::resizeGrid(int _gridSizeX, int _gridSizeY) {
     }
 }
 
-vector<Node> Grid::getNeighbours(Node &node) {
-    vector<Node> newList;
+vector<Node *> Grid::getNeighbours(Node &node) {
+    vector<Node *> newList;
     auto nodeX = node.x;
     auto nodeY = node.y;
 
     for (auto x = -1; x <= 1; x++) {
         for (auto y = -1; y <= 1; y++) {
-            if (x != 0 && y != 0) {
-                if (nodeGrid[nodeX + x][nodeY + y].walkable) {
-                    newList.push_back(nodeGrid[nodeX + x][nodeY + y]);
-                }
+            if (x != 0 || y != 0) {
+                if (!(nodeX + x <= -1 || nodeX + x >= gridSizeX ||
+                    nodeY + y <= -1 || nodeY + y >= gridSizeY)) {
+                    newList.push_back(&nodeGrid[nodeX + x][nodeY + y]);
+				}              
             }
         }
     }
 
-	return newList;
+    return newList;
 }
