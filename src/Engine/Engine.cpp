@@ -143,6 +143,8 @@ auto Engine::getIsRunning() const -> bool {
  * @param event The SDL2 event being read from
  */
 auto Engine::handleKeyPress(SDL_Event &event) -> void {
+    auto &display = GLDisplay::get();
+    display.handleKeyPress(event);
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE: {
             SDL_Quit();
@@ -221,7 +223,9 @@ auto Engine::handleMouseButtonRelease(SDL_Event &event) -> void {
  * the events to the currently set game state
  * @param event The SDL2 event being read from
  */
-auto Engine::handleMouseWheelMotion([[maybe_unused]] SDL_Event &event) -> void {
+auto Engine::handleMouseWheelMotion(SDL_Event &event) -> void {
+    auto &display = GLDisplay::get();
+    display.handleMouseWheel(event);
     // int amountScrolledX = event.wheel.x; // Amount scrolled left or right
     // int amountScrolledY = event.wheel.y; // Amount scrolled up or down
 }

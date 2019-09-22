@@ -1,5 +1,7 @@
 #include "GLDisplay.hpp"
 
+#include <iostream>
+
 #include <SDL2/SDL.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/vec3.hpp>
@@ -8,12 +10,15 @@
 #include "Engine/OpenGL.hpp"
 
 using View::GLDisplay;
+using namespace GridDisplay;
 
 GLDisplay::GLDisplay() {
     auto &engine = SDLEngine::Engine::get();
 
     SDL_GL_GetDrawableSize(engine.window.get(), &width, &height);
     GLDisplay::ratio = static_cast<double>(width) / static_cast<double>(height);
+
+    testGrid.nodeGrid[1][0].walkable = 0;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -32,17 +37,87 @@ auto GLDisplay::display() -> void {
     glEnable(GL_DEPTH_TEST);
 
     glPushMatrix();
-    glTranslatef(0.f, 0.f, -10.f);
-    drawRectangle(1, 1);
+    glTranslatef(gridTranslation.x, gridTranslation.y, gridTranslation.z);
+    displayGrid(testGrid);
     glPopMatrix();
 
     glDisable(GL_DEPTH_TEST);
     SDL_GL_SwapWindow(engine.window.get());
 }
 
-auto GLDisplay::update(double dt) -> void {
-    // dt == delta time
+auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
+    switch (event.key.keysym.scancode) {
+        case SDL_SCANCODE_W: {
+            testGrid.selected[1] =
+                ((testGrid.selected[1] + 1) % testGrid.gridSizeY);
+
+        } break;
+        case SDL_SCANCODE_S: {
+            testGrid.selected[1] =
+                ((testGrid.selected[1] - 1) % testGrid.gridSizeY);
+            if (testGrid.selected[1] < 0) {
+                testGrid.selected[1] = testGrid.gridSizeY - 1;
+            }
+        } break;
+        case SDL_SCANCODE_A: {
+            testGrid.selected[0] =
+                ((testGrid.selected[0] - 1) % testGrid.gridSizeX);
+            if (testGrid.selected[0] < 0) {
+                testGrid.selected[0] = testGrid.gridSizeX - 1;
+            }
+        } break;
+        case SDL_SCANCODE_D: {
+            testGrid.selected[0] =
+                ((testGrid.selected[0] + 1) % testGrid.gridSizeX);
+        } break;
+        case SDL_SCANCODE_SPACE: {
+            int x = testGrid.selected[0];
+            int y = testGrid.selected[1];
+
+            testGrid.nodeGrid[x][y].toggleWalkable();
+        } break;
+        case SDL_SCANCODE_UP: {
+            gridTranslation.y -= 1;
+        } break;
+        case SDL_SCANCODE_DOWN: {
+            gridTranslation.y += 1;
+        } break;
+        case SDL_SCANCODE_LEFT: {
+            gridTranslation.x += 1;
+        } break;
+        case SDL_SCANCODE_RIGHT: {
+            gridTranslation.x -= 1;
+        } break;
+        case SDL_SCANCODE_Z: {
+            testGrid.pathStart[0] = testGrid.selected[0];
+            testGrid.pathStart[1] = testGrid.selected[1];
+        } break;
+        case SDL_SCANCODE_X: {
+            testGrid.pathEnd[0] = testGrid.selected[0];
+            testGrid.pathEnd[1] = testGrid.selected[1];
+        } break;
+        case SDL_SCANCODE_L: {
+            auto neighbours = testGrid.getNeighbours(
+                testGrid.nodeGrid[testGrid.selected[0]][testGrid.selected[1]]);
+            for (auto n : neighbours) {
+				n->toggleWalkable();
+			}
+        } break;
+
+        default: break;
+    }
 }
+
+auto View::GLDisplay::handleMouseWheel(SDL_Event &event) -> void {
+    int amountScrolledY = event.wheel.y; // Amount scrolled up or down
+    if (gridTranslation.z < -1 || amountScrolledY < 0) {
+        gridTranslation.z += amountScrolledY;
+    }
+}
+
+// auto GLDisplay::update(double dt) -> void {
+//    // dt == delta time
+//}
 
 auto GLDisplay::get() -> GLDisplay & {
     static auto instance = GLDisplay{};
@@ -50,11 +125,8 @@ auto GLDisplay::get() -> GLDisplay & {
     return instance;
 }
 
-auto GLDisplay::drawRectangle(float width, float height) -> void{
-    glBegin(GL_LINE_LOOP);
-    glVertex3f(-0.5f * width, 0.5f * height, 0);
-    glVertex3f(0.5f * width, 0.5f * height, 0);
-    glVertex3f(0.5f * width, -0.5f * height, 0);
-    glVertex3f(-0.5f * width, -0.5f * height, 0);
-    glEnd();
+auto View::GLDisplay::updateCamera() -> void {
+    gluLookAt(camera.position.x, camera.position.y, camera.position.z,
+              camera.look.x, camera.look.y, camera.look.z, camera.up.x,
+              camera.up.y, camera.up.z);
 }
