@@ -110,7 +110,6 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
 
 auto View::GLDisplay::handleMouseWheel(SDL_Event &event) -> void {
     int amountScrolledY = event.wheel.y; // Amount scrolled up or down
-    std::cout << amountScrolledY << std::endl;
     if (gridTranslation.z < -1 || amountScrolledY < 0) {
         gridTranslation.z += amountScrolledY;
     }

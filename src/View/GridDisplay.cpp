@@ -15,11 +15,12 @@ namespace GridDisplay {
                 drawSquare(1, 1);
                 if (!grid.nodeGrid[x][y].walkable) {
                     glPushMatrix();
+                    glColor3f(0.7, 0.7, 0.7);
                     glTranslatef(0, 0, -0.01);
                     drawSquare(1, 0);
+                    glColor3f(1, 1, 1);
                     glPopMatrix();
                 }
-
                 if (x == grid.selected[0] && y == grid.selected[1]) {
                     glColor3f(1, 0, 0);
                     drawSquare(0.8, 0);
