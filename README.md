@@ -35,6 +35,9 @@ This is a test implementation of the A* pathfinding algorithm that I plan to use
 
 <b>Red Square • </b> Selected grid square
 
+<b>Grey Square • </b> Obstacle
+
+
 
 
 ## Controls
