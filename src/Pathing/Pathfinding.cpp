@@ -10,9 +10,9 @@
 using Pathing::Node;
 using Pathing::Pathfinding;
 
-float Pathing::Pathfinding::findDistance(Node &nodeA, Node &nodeB) {
-    float dstX = abs(nodeA.x - nodeB.x);
-    float dstY = abs(nodeA.y - nodeB.y);
+int Pathing::Pathfinding::findDistance(Node &nodeA, Node &nodeB) {
+    int dstX = abs(nodeA.x - nodeB.x);
+    int dstY = abs(nodeA.y - nodeB.y);
 
 	if (dstX > dstY)
         return diagonalCost * dstY + straightCost * (dstX - dstY);
@@ -88,9 +88,9 @@ std::vector<Node *> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNo
             }
 
             // Calculate costs and set parents
-            float newCostToNeighbour =
+            int newCostToNeighbour =
                 currentNode->gCost + findDistance(*currentNode, *neighbour);
-            std::cout << newCostToNeighbour << std::endl;
+            //std::cout << newCostToNeighbour << std::endl;
 
             if (newCostToNeighbour < neighbour->gCost ||
                 !containsNode(openSet, neighbour)) {

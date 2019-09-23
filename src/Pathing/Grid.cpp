@@ -63,8 +63,8 @@ void Grid::resizeGrid(int _gridSizeX, int _gridSizeY) {
 
 vector<Node *> Grid::getNeighbours(Node &node) {
     vector<Node *> newList;
-    int nodeX = node.x;
-    int nodeY = node.y;
+    long long int nodeX = node.x;
+    long long int nodeY = node.y;
 
     for (int x = -1; x <= 1; x++) {
         for (int y = -1; y <= 1; y++) {
