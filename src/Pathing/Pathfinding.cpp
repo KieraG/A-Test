@@ -2,26 +2,24 @@
 
 #include "Pathfinding.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <math.h>
 #include <set>
-#include <algorithm>
 
-using Pathing::Pathfinding;
 using Pathing::Node;
+using Pathing::Pathfinding;
 
-int Pathing::Pathfinding::findDistance(Node &nodeA, Node &nodeB) {
-    int distanceX = abs(nodeA.x - nodeB.x);
-    int distanceY = abs(nodeA.y - nodeB.y);
+float Pathing::Pathfinding::findDistance(Node &nodeA, Node &nodeB) {
+    float dstX = abs(nodeA.x - nodeB.x);
+    float dstY = abs(nodeA.y - nodeB.y);
 
-    if (distanceX > distanceY) {
-        return diagonalCost * distanceY + straightCost * abs(distanceX - distanceY);
-    } else {
-        return diagonalCost * distanceX + straightCost * abs(distanceY - distanceX);
-    }
+	if (dstX > dstY)
+        return diagonalCost * dstY + straightCost * (dstX - dstY);
+    return diagonalCost * dstX + straightCost * (dstY - dstX);
 }
 
-bool Pathing::Pathfinding::containsNode(std::vector<Node*> &set, Node *node) {
+bool Pathing::Pathfinding::containsNode(std::vector<Node *> &set, Node *node) {
     for (auto m : set) {
         if (node == m) {
             return true;
@@ -35,15 +33,16 @@ std::vector<Node *> Pathing::Pathfinding::traceRoute(Node *endNode) {
     std::vector<Node *> path;
     Node *currentNode = endNode;
 
-	while (currentNode->parent != nullptr) {
+    while (currentNode->parent != nullptr) {
         path.push_back(currentNode);
         currentNode = currentNode->parent;
-	}
+    }
     std::reverse(path.begin(), path.end());
     return path;
 }
 
-std::vector<Node*> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNode, Node &endNode) {
+std::vector<Node *> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNode,
+                                                   Node &endNode) {
     std::vector<Node *> openSet;
     std::vector<Node *> closedSet;
     nodeGrid.resetGridCosts();
@@ -54,13 +53,16 @@ std::vector<Node*> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNod
 
         Node *currentNode = openSet[0];
 
+        // Find best node to use from open set
         for (int i = 1; i < openSet.size(); i++) {
-            if (openSet[i]->fCost() < currentNode->fCost()) {
-                currentNode = openSet[i];
+            if (openSet[i]->fCost() < currentNode->fCost() ||
+                openSet[i]->fCost() == currentNode->fCost()) {
+                if (openSet[i]->hCost < currentNode->hCost)
+                    currentNode = openSet[i];
             }
         }
 
-		// Remove current node from openSet
+        // Remove current node from openSet
         for (auto it = openSet.begin(); it != openSet.end();) {
             if (*it == currentNode) {
                 it = openSet.erase(it);
@@ -69,30 +71,42 @@ std::vector<Node*> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNod
             }
         }
 
-		closedSet.push_back(currentNode);
+        closedSet.push_back(currentNode);
 
-		if (currentNode == &endNode) {
+        // Path find
+        if (currentNode == &endNode) {
             std::cout << "Found Path\n";
             return traceRoute(&endNode);
-		}
+        }
 
-		for (auto neighbour : nodeGrid.getNeighbours(*currentNode)) {
-        
-			if (containsNode(closedSet, neighbour) || !neighbour->walkable) {
+        // For each surrounding node
+        for (auto neighbour : nodeGrid.getNeighbours(*currentNode)) {
+
+            // Skip to next neighbour if current neighbour is unwalkable or in the closedSet
+            if (containsNode(closedSet, neighbour) || !neighbour->walkable) {
                 continue;
-			}
+            }
 
-			neighbour->gCost = findDistance(*neighbour, *currentNode);
-            neighbour->hCost = findDistance(*neighbour, endNode);
-            neighbour->parent = currentNode;
+            // Calculate costs and set parents
+            float newCostToNeighbour =
+                currentNode->gCost + findDistance(*currentNode, *neighbour);
 
-			for (auto n : openSet) {
+            if (newCostToNeighbour < neighbour->gCost ||
+                !containsNode(openSet, neighbour)) {
+                neighbour->gCost  = newCostToNeighbour;
+                neighbour->hCost  = findDistance(*neighbour, endNode);
+                neighbour->parent = currentNode;
+            }
+
+            // If the neighbour is already in the openList, skip to next neighbour
+            for (auto n : openSet) {
                 if (neighbour == n && neighbour->gCost > n->gCost) {
                     continue;
-				}
-			}
+                }
+            }
+            // If loop reaches this point, then neighbour gets pushed to openSet
             openSet.push_back(neighbour);
-		}
+        }
     }
     std::cout << "No path\n";
     std::vector<Node *> emptyList;
