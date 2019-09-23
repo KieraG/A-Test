@@ -2,7 +2,6 @@
 
 Pathing::Node::Node() {
     x = 0, y = 0;
-    child  = nullptr;
     parent = nullptr;
 }
 

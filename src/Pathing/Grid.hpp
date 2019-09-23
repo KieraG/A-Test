@@ -15,9 +15,10 @@ namespace Pathing {
         Node &getEndNode();
         Node &getSelectedNode();
 
-		void resetGridCosts();
+        void resetGridCosts();
+        void resetGrid();
 
-        void resizeGrid(int x, int y);
+            void resizeGrid(int x, int y);
 
         /// 2Dimensional Vector of nodes
         vector<vector<Node>> nodeGrid;

@@ -6,11 +6,9 @@ namespace Pathing {
         Node();
         Node(int _x, int _y) {
             x = _x, y = _y;
-            child = nullptr;
             parent = nullptr;
         };
 
-        Node *child = nullptr;
         Node *parent = nullptr;
 
         /// gCost + hCost;

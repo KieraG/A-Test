@@ -48,6 +48,7 @@ auto GLDisplay::display() -> void {
 }
 
 auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
+
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_W: {
             testGrid.selected[1] =
@@ -73,10 +74,9 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
                 ((testGrid.selected[0] + 1) % testGrid.gridSizeX);
         } break;
         case SDL_SCANCODE_SPACE: {
-            int x = testGrid.selected[0];
-            int y = testGrid.selected[1];
-
-            testGrid.nodeGrid[x][y].toggleWalkable();
+            testGrid.getSelectedNode().toggleWalkable();
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_UP: {
             gridTranslation.y -= 1;
@@ -93,10 +93,14 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
         case SDL_SCANCODE_Z: {
             testGrid.pathStart[0] = testGrid.selected[0];
             testGrid.pathStart[1] = testGrid.selected[1];
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_X: {
             testGrid.pathEnd[0] = testGrid.selected[0];
             testGrid.pathEnd[1] = testGrid.selected[1];
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_L: {
             auto neighbours = testGrid.getNeighbours(

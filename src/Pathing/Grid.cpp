@@ -28,6 +28,18 @@ void Pathing::Grid::resetGridCosts() {
         for (auto y = 0; y < gridSizeY; y++) {
             nodeGrid[x][y].gCost = 0;
             nodeGrid[x][y].hCost = 0;
+            nodeGrid[x][y].parent = nullptr;
+        }
+    }
+}
+
+void Pathing::Grid::resetGrid() {
+    for (auto x = 0; x < gridSizeX; x++) {
+        for (auto y = 0; y < gridSizeY; y++) {
+            nodeGrid[x][y].gCost = 0;
+            nodeGrid[x][y].hCost = 0;
+            nodeGrid[x][y].walkable = 0;
+            
         }
     }
 }

@@ -46,9 +46,9 @@ namespace GridDisplay {
             glPushMatrix();
             glTranslatef(n->x - 0.5f * grid.gridSizeX,
                          n->y - 0.5f * grid.gridSizeY, 0);
-            glColor3f(1, 1, 0);
-            drawSquare(0.7, 0);
-            glColor3f(1, 1, 1);
+            glColor3f(1.f, 1.f, 0.f);
+            drawSquare(0.7f, 0.f);
+            glColor3f(1.f, 1.f, 1.f);
 			glPopMatrix();
 		}
 	}

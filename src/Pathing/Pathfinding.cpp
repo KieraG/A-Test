@@ -90,6 +90,7 @@ std::vector<Node *> Pathing::Pathfinding::findPath(Grid &nodeGrid, Node &startNo
             // Calculate costs and set parents
             float newCostToNeighbour =
                 currentNode->gCost + findDistance(*currentNode, *neighbour);
+            std::cout << newCostToNeighbour << std::endl;
 
             if (newCostToNeighbour < neighbour->gCost ||
                 !containsNode(openSet, neighbour)) {
