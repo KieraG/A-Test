@@ -11,14 +11,19 @@
 
 using View::GLDisplay;
 using namespace GridDisplay;
+using namespace Pathing;
 
 GLDisplay::GLDisplay() {
+
+	Grid newGrid = Grid(20, 20);
+    testGrid     = newGrid;
     auto &engine = SDLEngine::Engine::get();
+
+	path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                 testGrid.getEndNode());
 
     SDL_GL_GetDrawableSize(engine.window.get(), &width, &height);
     GLDisplay::ratio = static_cast<double>(width) / static_cast<double>(height);
-
-    testGrid.nodeGrid[1][0].walkable = 0;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -39,6 +44,7 @@ auto GLDisplay::display() -> void {
     glPushMatrix();
     glTranslatef(gridTranslation.x, gridTranslation.y, gridTranslation.z);
     displayGrid(testGrid);
+    displayPath(path,testGrid);
     glPopMatrix();
 
     glDisable(GL_DEPTH_TEST);
@@ -46,6 +52,7 @@ auto GLDisplay::display() -> void {
 }
 
 auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
+
     switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_W: {
             testGrid.selected[1] =
@@ -71,10 +78,9 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
                 ((testGrid.selected[0] + 1) % testGrid.gridSizeX);
         } break;
         case SDL_SCANCODE_SPACE: {
-            int x = testGrid.selected[0];
-            int y = testGrid.selected[1];
-
-            testGrid.nodeGrid[x][y].toggleWalkable();
+            testGrid.getSelectedNode().toggleWalkable();
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_UP: {
             gridTranslation.y -= 1;
@@ -91,17 +97,28 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
         case SDL_SCANCODE_Z: {
             testGrid.pathStart[0] = testGrid.selected[0];
             testGrid.pathStart[1] = testGrid.selected[1];
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_X: {
             testGrid.pathEnd[0] = testGrid.selected[0];
             testGrid.pathEnd[1] = testGrid.selected[1];
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                         testGrid.getEndNode());
         } break;
         case SDL_SCANCODE_L: {
             auto neighbours = testGrid.getNeighbours(
                 testGrid.nodeGrid[testGrid.selected[0]][testGrid.selected[1]]);
             for (auto n : neighbours) {
-				n->toggleWalkable();
-			}
+                n->toggleWalkable();
+            }
+        } break;
+        case SDL_SCANCODE_B: {
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                  testGrid.getEndNode());
+            
+            std::cout << path.size();
+            //std::cout << Pathfinding::findDistance(testGrid.getStartNode(), testGrid.getEndNode());
         } break;
 
         default: break;

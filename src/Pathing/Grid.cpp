@@ -3,12 +3,55 @@
 using Pathing::Grid;
 using Pathing::Node;
 
+void Pathing::Grid::initialiseSelections() {
+    selected[0]  = 1;
+    selected[1]  = 1;
+    pathStart[0] = 0;
+    pathStart[1] = 0;
+    pathEnd[0]   = gridSizeX - 1;
+    pathEnd[1]   = gridSizeY - 1;
+}
+
 Grid::Grid() {
     this->resizeGrid(this->gridSizeX, this->gridSizeY);
+    initialiseSelections();
 }
 
 Grid::Grid(int _gridSizeX, int _gridSizeY) {
     this->resizeGrid(_gridSizeX, _gridSizeY);
+    initialiseSelections();
+}
+
+Node &Pathing::Grid::getStartNode() {
+    return this->nodeGrid[pathStart[0]][pathStart[1]];
+}
+
+Node &Pathing::Grid::getEndNode() {
+    return this->nodeGrid[pathEnd[0]][pathEnd[1]];
+}
+
+Node &Pathing::Grid::getSelectedNode() {
+    return this->nodeGrid[selected[0]][selected[1]];
+}
+
+void Pathing::Grid::resetGridCosts() {
+    for (auto x = 0; x < gridSizeX; x++) {
+        for (auto y = 0; y < gridSizeY; y++) {
+            nodeGrid[x][y].gCost  = 0;
+            nodeGrid[x][y].hCost  = 0;
+            nodeGrid[x][y].parent = nullptr;
+        }
+    }
+}
+
+void Pathing::Grid::resetGrid() {
+    for (auto x = 0; x < gridSizeX; x++) {
+        for (auto y = 0; y < gridSizeY; y++) {
+            nodeGrid[x][y].gCost    = 0;
+            nodeGrid[x][y].hCost    = 0;
+            nodeGrid[x][y].walkable = 0;
+        }
+    }
 }
 
 void Grid::resizeGrid(int _gridSizeX, int _gridSizeY) {
@@ -30,16 +73,16 @@ void Grid::resizeGrid(int _gridSizeX, int _gridSizeY) {
 
 vector<Node *> Grid::getNeighbours(Node &node) {
     vector<Node *> newList;
-    auto nodeX = node.x;
-    auto nodeY = node.y;
+    long long int nodeX = node.x;
+    long long int nodeY = node.y;
 
-    for (auto x = -1; x <= 1; x++) {
-        for (auto y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
             if (x != 0 || y != 0) {
                 if (!(nodeX + x <= -1 || nodeX + x >= gridSizeX ||
-                    nodeY + y <= -1 || nodeY + y >= gridSizeY)) {
+                      nodeY + y <= -1 || nodeY + y >= gridSizeY)) {
                     newList.push_back(&nodeGrid[nodeX + x][nodeY + y]);
-				}              
+                }
             }
         }
     }

@@ -6,9 +6,11 @@
 #include <glm/vec3.hpp>
 
 #include "Engine/Engine.hpp"
+#include "Pathing//Pathfinding.hpp"
 #include "View/GridDisplay.hpp"
 
 using Pathing::Grid;
+using Pathing::Node;
 
 namespace View {
 
@@ -31,6 +33,7 @@ namespace View {
         auto display() -> void;
         auto handleKeyPress(SDL_Event &event) -> void;
         auto handleMouseWheel(SDL_Event &event) -> void;
+        std::vector<Node *> path;
         /*auto update(double dt) -> void;*/
 
         Grid testGrid;
