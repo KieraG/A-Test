@@ -5,8 +5,15 @@
 </p>
 
 
+<p align="center"> 
+<img src="https://i.imgur.com/52d2nqk.png">
+</p>
+
+
 
 <p align="center">
+  <a href="#grid-layout">Grid Layout</a> •
+  <a href="#controls">Controls</a> •
   <a href="#building">Building</a> •
   <a href="#contributing">Contributing</a> •
   <a href="#license">License</a>
@@ -16,6 +23,32 @@
 This is a test implementation of the A* pathfinding algorithm that I plan to use in a assignment. This project makes use of OpenGL and SDL2 to draw a grid on screen and recieve user input.
  I mostly follow  <a href="https://www.youtube.com/watch?v=-L-WgKMFuhE&list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW">this</a>  tutorial for the  A* implementation.
  </p>
+ 
+## Grid Layout
+<b>Black Square • </b> Empty node
+
+<b>Yellow Square • </b> Path from start node to end node
+
+<b>Green Square • </b> Path start node
+
+<b>Blue Square • </b> Path end node
+
+<b>Red Square • </b> Selected grid square
+
+
+
+## Controls
+<b>W, A, S, D • </b> Moves the selected square.
+
+<b>I, J, K, L • </b> Moves the grid 
+
+<b>Z, X• </b> Sets the start and end location respectively
+
+<b>Spacebar• </b> Toggles whether the currently selected node is traversable
+
+<b>Mouse Scroll• </b> Zooms in and out
+
+
 
 ## Building
 ### Tools
