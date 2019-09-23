@@ -64,14 +64,14 @@ This is a test implementation of the A* pathfinding algorithm that I plan to use
 
 ### Cloning
 ```
-git clone --recurse-submodules https://github.com/KieraG/GL_SDL2-Bare.git
+git clone --recurse-submodules https://github.com/KieraG/A-Test.git
 git checkout develop && git submodule update --init
 ```
 
 ### Building
 * Unix:
     ```
-    cmake -S . -B build && cmake --build build && ./build/shays-world
+    cmake -S . -B build && cmake --build build && ./build/a-test
     ```
 * Windows:
     * Open Visual Studio
