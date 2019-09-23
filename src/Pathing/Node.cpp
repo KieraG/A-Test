@@ -12,14 +12,6 @@ const int Pathing::Node::fCost() const {
 
 const bool Pathing::Node::operator<(const Node &rhs) const {
     
-	/*if (this->fCost() < rhs.fCost() || this->fCost() == rhs.fCost()) {
-        if (this->hCost <  rhs.hCost) {
-            return false;
-		}
-	}
-    return true;*/
-	
-	
 	if (fCost() == rhs.fCost()) {
         return hCost < rhs.hCost;
     } else {
