@@ -85,7 +85,7 @@ Engine::Engine() {
     this->window = Engine::Window{
         SDL_CreateWindow("Window Title", display.w / 4, display.h / 4,
                          display.w / 2, display.h / 2,
-                         SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI),
+                         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI),
         &SDL_DestroyWindow};
 
     if (this->window.get() == nullptr) {

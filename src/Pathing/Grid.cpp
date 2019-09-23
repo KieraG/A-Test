@@ -3,15 +3,26 @@
 using Pathing::Grid;
 using Pathing::Node;
 
+void Pathing::Grid::initialiseSelections() {
+    selected[0]  = 1;
+    selected[1]  = 1;
+    pathStart[0] = 0;
+    pathStart[1] = 0;
+    pathEnd[0]   = gridSizeX - 1;
+    pathEnd[1]   = gridSizeY - 1;
+}
+
 Grid::Grid() {
     this->resizeGrid(this->gridSizeX, this->gridSizeY);
+    initialiseSelections();
 }
 
 Grid::Grid(int _gridSizeX, int _gridSizeY) {
     this->resizeGrid(_gridSizeX, _gridSizeY);
+    initialiseSelections();
 }
 
-Node &Pathing::Grid::getStartNode(){
+Node &Pathing::Grid::getStartNode() {
     return this->nodeGrid[pathStart[0]][pathStart[1]];
 }
 
@@ -26,8 +37,8 @@ Node &Pathing::Grid::getSelectedNode() {
 void Pathing::Grid::resetGridCosts() {
     for (auto x = 0; x < gridSizeX; x++) {
         for (auto y = 0; y < gridSizeY; y++) {
-            nodeGrid[x][y].gCost = 0;
-            nodeGrid[x][y].hCost = 0;
+            nodeGrid[x][y].gCost  = 0;
+            nodeGrid[x][y].hCost  = 0;
             nodeGrid[x][y].parent = nullptr;
         }
     }
@@ -36,10 +47,9 @@ void Pathing::Grid::resetGridCosts() {
 void Pathing::Grid::resetGrid() {
     for (auto x = 0; x < gridSizeX; x++) {
         for (auto y = 0; y < gridSizeY; y++) {
-            nodeGrid[x][y].gCost = 0;
-            nodeGrid[x][y].hCost = 0;
+            nodeGrid[x][y].gCost    = 0;
+            nodeGrid[x][y].hCost    = 0;
             nodeGrid[x][y].walkable = 0;
-            
         }
     }
 }

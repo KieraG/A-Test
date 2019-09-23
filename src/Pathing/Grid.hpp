@@ -7,6 +7,8 @@ using std::vector;
 
 namespace Pathing {
     class Grid {
+      private:
+        void initialiseSelections();
       public:
         Grid();
         Grid(int _gridSizeX, int _gridSizeY);
@@ -18,7 +20,7 @@ namespace Pathing {
         void resetGridCosts();
         void resetGrid();
 
-            void resizeGrid(int x, int y);
+        void resizeGrid(int x, int y);
 
         /// 2Dimensional Vector of nodes
         vector<vector<Node>> nodeGrid;

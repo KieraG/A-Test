@@ -14,12 +14,16 @@ using namespace GridDisplay;
 using namespace Pathing;
 
 GLDisplay::GLDisplay() {
+
+	Grid newGrid = Grid(20, 20);
+    testGrid     = newGrid;
     auto &engine = SDLEngine::Engine::get();
+
+	path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+                                 testGrid.getEndNode());
 
     SDL_GL_GetDrawableSize(engine.window.get(), &width, &height);
     GLDisplay::ratio = static_cast<double>(width) / static_cast<double>(height);
-
-    testGrid.nodeGrid[1][0].walkable = 0;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
