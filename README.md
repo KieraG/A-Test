@@ -38,15 +38,15 @@ This is a test implementation of the A* pathfinding algorithm that I plan to use
 
 
 ## Controls
-<b>W, A, S, D • </b> Moves the selected square.
+<b>W, A, S, D • </b> Moves the grid square selection up, left, down, or right respectively.
 
-<b>I, J, K, L • </b> Moves the grid 
+<b>I, J, K, L • </b> Moves the grid up, left, down, or right respectively.
 
-<b>Z, X• </b> Sets the start and end location respectively
+<b>Z, X• </b> Sets the start and end location respectively. Sets to the currently selected grid location.
 
-<b>Spacebar• </b> Toggles whether the currently selected node is traversable
+<b>Spacebar• </b> Toggles whether the currently selected grid square is traversable.
 
-<b>Mouse Scroll• </b> Zooms in and out
+<b>Mouse Scroll• </b> Zooms in and out (currently no bounds checking)
 
 
 
