@@ -68,7 +68,7 @@ This is a test implementation of the A* pathfinding algorithm that I plan to use
 ### Cloning
 ```
 git clone --recurse-submodules https://github.com/KieraG/A-Test.git
-git checkout develop && git submodule update --init
+git submodule update --init
 ```
 
 ### Building
