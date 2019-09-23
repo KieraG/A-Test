@@ -40,6 +40,7 @@ auto GLDisplay::display() -> void {
     glPushMatrix();
     glTranslatef(gridTranslation.x, gridTranslation.y, gridTranslation.z);
     displayGrid(testGrid);
+    displayPath(path,testGrid);
     glPopMatrix();
 
     glDisable(GL_DEPTH_TEST);
@@ -105,8 +106,10 @@ auto View::GLDisplay::handleKeyPress(SDL_Event &event) -> void {
             }
         } break;
         case SDL_SCANCODE_B: {
-            Pathfinding::findPath(testGrid, testGrid.getStartNode(),
+            path = Pathfinding::findPath(testGrid, testGrid.getStartNode(),
                                   testGrid.getEndNode());
+            
+            std::cout << path.size();
             //std::cout << Pathfinding::findDistance(testGrid.getStartNode(), testGrid.getEndNode());
         } break;
 

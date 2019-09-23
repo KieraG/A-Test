@@ -40,6 +40,19 @@ namespace GridDisplay {
             }
         }
     }
+
+    auto displayPath(std::vector<Node *> path, Grid &grid) -> void {
+        for (auto n : path) {
+            glPushMatrix();
+            glTranslatef(n->x - 0.5f * grid.gridSizeX,
+                         n->y - 0.5f * grid.gridSizeY, 0);
+            glColor3f(1, 1, 0);
+            drawSquare(0.7, 0);
+            glColor3f(1, 1, 1);
+			glPopMatrix();
+		}
+	}
+
     void drawSquare(float size, bool wireframe) {
         drawRectangle(size, size, wireframe);
     }

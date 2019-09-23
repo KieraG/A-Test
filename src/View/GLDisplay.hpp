@@ -10,6 +10,7 @@
 #include "View/GridDisplay.hpp"
 
 using Pathing::Grid;
+using Pathing::Node;
 
 namespace View {
 
@@ -32,6 +33,7 @@ namespace View {
         auto display() -> void;
         auto handleKeyPress(SDL_Event &event) -> void;
         auto handleMouseWheel(SDL_Event &event) -> void;
+        std::vector<Node *> path;
         /*auto update(double dt) -> void;*/
 
         Grid testGrid;
